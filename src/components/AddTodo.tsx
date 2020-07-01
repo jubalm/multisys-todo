@@ -1,5 +1,6 @@
-import React, {useState} from "react";
-import {useTodo} from "components/TodoProvider";
+import React, { useState } from "react";
+import { useTodo } from "components/TodoProvider";
+import { css } from "emotion";
 
 const AddTodo = () => {
   const [description, setDescription] = useState<string>("");
@@ -19,15 +20,43 @@ const AddTodo = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="What to do next?"
-        value={description}
-        onChange={handleInputChange}
-      />
-      <button type="submit">New Todo</button>
+      <div className={s.add}>
+        <input
+          className={s.input}
+          type="text"
+          placeholder="Write your task here"
+          value={description}
+          onChange={handleInputChange}
+        />
+        <button className={s.button} type="submit">
+          add task
+        </button>
+      </div>
     </form>
   );
 };
 
 export default AddTodo;
+
+const s = {
+  add: css({
+    display: "flex",
+    padding: "10px 4px",
+    borderBottom: "1px solid #ddd",
+  }),
+  input: css({
+    flex: 1,
+    appearance: "none",
+    border: "0 none",
+    marginRight: 10,
+    outline: "none",
+  }),
+  button: css({
+    appearance: "none",
+    border: "0 none",
+    backgroundColor: "transparent",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    outline: "none",
+  }),
+};
