@@ -6,12 +6,15 @@ type TodoContext = {
   add: (description: string) => void;
   remove: (id: string) => void;
   update: (id: string, object: Partial<Todo>) => void;
+  edit: boolean;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TodoContext = createContext({} as TodoContext);
 
 const TodoProvider: React.FC = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [edit, setEdit] = useState<boolean>(false)
 
   const add = (description: string) => {
     setTodos([...todos, { id: makeId(), done: false, description }]);
@@ -29,9 +32,7 @@ const TodoProvider: React.FC = ({ children }) => {
   };
 
   return (
-    <TodoContext.Provider
-      value={{ todos, add, remove, update }}
-    >
+    <TodoContext.Provider value={{ todos, add, remove, update, edit, setEdit }}>
       {children}
     </TodoContext.Provider>
   );
