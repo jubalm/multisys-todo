@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import { useTodo } from "./TodoProvider";
 
 const Todos = () => {
+  const [removing, setRemoving] = useState<boolean>(false);
   const { todos } = useTodo();
 
   return (
     <div>
-      <AddTodo />
+      <div style={{ display: "flex" }}>
+        <AddTodo />
+        <button onClick={() => setRemoving(!removing)}>
+          {removing ? `Done` : `Edit`}
+        </button>
+      </div>
       {todos.map((todo) => (
-        <Todo {...todo} key={todo.id} />
+        <Todo removing={removing} {...todo} key={todo.id} />
       ))}
     </div>
   );
@@ -45,7 +51,8 @@ const AddTodo = () => {
   );
 };
 
-const Todo: React.FC<Todo> = ({ id, description, done }) => {
+const Todo: React.FC<Todo & { removing: boolean }> = (props) => {
+  const { removing, id, description, done } = props;
   const { remove, update } = useTodo();
   const handleToggle = () => {
     update(id, { done: !done });
@@ -56,14 +63,18 @@ const Todo: React.FC<Todo> = ({ id, description, done }) => {
   };
 
   const handleRemove = () => {
-    remove(id)
-  }
+    remove(id);
+  };
 
   return (
     <div>
-      <button onClick={handleRemove}>&times;</button>
-      <input type="checkbox" checked={done} onChange={handleToggle} />
-      <input type="text" value={description} onChange={handleDescription} />
+      {removing ? (
+        <button onClick={handleRemove}>&times;</button>
+      ) : (
+        <input type="checkbox" checked={done} onChange={handleToggle} />
+      )}
+
+      <input type="text" value={description} onChange={handleDescription} disabled={!removing} />
     </div>
   );
 };

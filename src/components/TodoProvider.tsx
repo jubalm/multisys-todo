@@ -14,7 +14,7 @@ const TodoProvider: React.FC = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const add = (description: string) => {
-    setTodos([...todos, { id: makeId(), done:false, description }]);
+    setTodos([...todos, { id: makeId(), done: false, description }]);
   };
 
   const remove = (id: string) => {
@@ -29,7 +29,9 @@ const TodoProvider: React.FC = ({ children }) => {
   };
 
   return (
-    <TodoContext.Provider value={{ todos, add, remove, update }}>
+    <TodoContext.Provider
+      value={{ todos, add, remove, update }}
+    >
       {children}
     </TodoContext.Provider>
   );
@@ -38,5 +40,5 @@ const TodoProvider: React.FC = ({ children }) => {
 export default TodoProvider;
 
 export function useTodo() {
-  return useContext(TodoContext)
+  return useContext(TodoContext);
 }
