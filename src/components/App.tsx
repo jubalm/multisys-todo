@@ -1,7 +1,13 @@
 import React from "react";
+import TodoProvider from "components/TodoProvider";
+import Todos from "components/Todos";
 
 const App = () => {
-  return <div>Hello Universe!</div>;
+  return (
+    <TodoProvider>
+      <Todos />
+    </TodoProvider>
+  );
 };
 
 export default App;
