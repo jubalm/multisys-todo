@@ -3,24 +3,18 @@ import { makeId } from "lib/helpers";
 
 type TodoContext = {
   todos: Todo[];
-  add: () => void;
+  add: (description: string) => void;
   remove: (id: string) => void;
   update: (id: string, object: Partial<Todo>) => void;
 };
 
 const TodoContext = createContext({} as TodoContext);
 
-type Todo = {
-  id: string;
-  done: boolean;
-  description: string;
-};
-
 const TodoProvider: React.FC = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  const add = () => {
-    setTodos([...todos, { id: makeId(), done:false, description: "" }]);
+  const add = (description: string) => {
+    setTodos([...todos, { id: makeId(), done:false, description }]);
   };
 
   const remove = (id: string) => {
