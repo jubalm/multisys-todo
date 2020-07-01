@@ -1,34 +1,28 @@
 import React from "react";
-import { useTodo } from "components/TodoProvider";
 import { css } from "emotion";
+import { useDispatch, useSelector } from "react-redux";
 
 const Todo: React.FC<Todo> = (props) => {
   const { id, description, done } = props;
-  const { edit, remove, update } = useTodo();
-  const handleToggle = () => {
-    update(id, { done: !done });
-  };
-
-  const handleDescription: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    update(id, { description: e.target.value });
-  };
-
-  const handleRemove = () => {
-    remove(id);
-  };
+  const edit = useSelector<TodoContext, boolean>((state) => state.edit);
+  const dispatch = useDispatch();
 
   return (
     <div className={s.item}>
       {edit ? (
         <div className={s.close}>
-          <button onClick={handleRemove}>&times;</button>
+          <button onClick={() => dispatch({ type: "REMOVE_TODO", id })}>
+            &times;
+          </button>
         </div>
       ) : (
         <input
           className={s.check}
           type="checkbox"
-          checked={done}
-          onChange={handleToggle}
+          checked={done || false}
+          onChange={() =>
+            dispatch({ type: "UPDATE_TODO", payload: { id, done: !done } })
+          }
         />
       )}
 
@@ -36,7 +30,12 @@ const Todo: React.FC<Todo> = (props) => {
         className={s.input}
         type="text"
         value={description}
-        onChange={handleDescription}
+        onChange={(e) =>
+          dispatch({
+            type: "UPDATE_TODO",
+            payload: { id, description: e.target.value },
+          })
+        }
         disabled={!edit}
       />
     </div>
@@ -82,7 +81,7 @@ const s = {
 
     ":disabled": {
       border: "1px solid transparent",
-      background: "transparent"
+      background: "transparent",
     },
   }),
 };

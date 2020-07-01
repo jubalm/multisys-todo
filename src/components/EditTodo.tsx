@@ -1,11 +1,18 @@
 import React from "react";
-import {useTodo} from "components/TodoProvider";
 import { css } from "emotion";
+import { useSelector, useDispatch } from "react-redux";
 
 const EditTodo = () => {
-  const { edit, setEdit } = useTodo();
+  const edit = useSelector<TodoContext, boolean>((state) => state.edit);
+  const dispatch = useDispatch();
+
   return (
-    <button className={s.edit} onClick={() => setEdit(!edit)}>{edit ? `List` : `Edit`}</button>
+    <button
+      className={s.edit}
+      onClick={() => dispatch({ type: "EDIT_TODO", edit })}
+    >
+      {edit ? `List` : `Edit`}
+    </button>
   );
 };
 
@@ -19,6 +26,6 @@ const s = {
     textTransform: "uppercase",
     fontWeight: "bold",
     outline: "none",
-    cursor: "pointer"
-  })
-}
+    cursor: "pointer",
+  }),
+};

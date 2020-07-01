@@ -1,13 +1,15 @@
-import React, {useMemo} from "react";
-import { useTodo } from "components/TodoProvider";
+import React, { useMemo } from "react";
 import TodoList from "components/TodoList";
 import EditTodo from "components/EditTodo";
 import AddTodo from "components/AddTodo";
 import { css } from "emotion";
+import { useSelector } from "react-redux";
 
 const Todos = () => {
-  const { todos } = useTodo();
-  const countDone = useMemo(() => todos.filter(todo => !!todo.done).length, [todos])
+  const todos = useSelector<TodoContext, Todo[]>((state) => state.todos);
+  const countDone = useMemo(() => todos.filter((todo) => !!todo.done).length, [
+    todos,
+  ]);
 
   return (
     <div className={s.todos}>
@@ -15,10 +17,12 @@ const Todos = () => {
         <h4 className={s.title}>I need to...</h4>
         <EditTodo />
       </div>
-      <TodoList todos={todos} />
 
+      <TodoList todos={todos} />
       <AddTodo />
-      <p className={s.footer}>{countDone} of {todos.length} tasks done.</p>
+      <p className={s.footer}>
+        {countDone} of {todos.length} tasks done.
+      </p>
     </div>
   );
 };
@@ -30,10 +34,10 @@ const s = {
     display: "flex",
     borderBottom: "1px solid #ddd",
     padding: "10px 4px",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   }),
   title: css({
-    margin: 0
+    margin: 0,
   }),
   todos: css({
     margin: "0 auto",
@@ -49,6 +53,6 @@ const s = {
   }),
   footer: css({
     color: "#999",
-    fontSize: 12 
-  })
+    fontSize: 12,
+  }),
 };

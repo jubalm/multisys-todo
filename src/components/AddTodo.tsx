@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useTodo } from "components/TodoProvider";
 import { css } from "emotion";
+import { useDispatch } from "react-redux";
 
 const AddTodo = () => {
   const [description, setDescription] = useState<string>("");
-  const { add } = useTodo();
+  const dispatch = useDispatch()
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     // no need to submit blank fields
     if (!description) return;
-    add(description);
+    dispatch({ type: "ADD_TODO", payload: { description }})
     setDescription("");
   };
 
