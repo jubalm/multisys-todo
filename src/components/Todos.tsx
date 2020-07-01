@@ -7,6 +7,7 @@ import { css } from "emotion";
 
 const Todos = () => {
   const { todos } = useTodo();
+  const countDone = useMemo(() => todos.filter(todo => !!todo.done).length, [todos])
 
   return (
     <div className={s.todos}>
@@ -17,6 +18,7 @@ const Todos = () => {
       <TodoList todos={todos} />
 
       <AddTodo />
+      <p className={s.footer}>{countDone} of {todos.length} tasks done.</p>
     </div>
   );
 };
