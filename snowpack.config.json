@@ -1,5 +1,11 @@
 {
   "extends": "@snowpack/app-scripts-react",
-  "scripts": {},
-  "plugins": []
+  "scripts": {
+    "mount:lib": "mount lib --to /_dist_/lib",
+    "mount:components": "mount components --to /_dist_/components"
+  },
+  "plugins": [],
+  "devOptions": {
+    "port": 3000
+  }
 }
