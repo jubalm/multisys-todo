@@ -24,7 +24,7 @@ const TodoProvider: React.FC = ({ children }) => {
   };
 
   const remove = (id: string) => {
-    setTodos(todos.filter((todo) => todo.id === id));
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const update = (id: string, object: Partial<Todo>) => {
